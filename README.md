@@ -1,1 +1,17 @@
-# pyrewrite
+# PyRewrite
+
+###Commands
+    pyrewrite ls
+	pyrewrite add <PATH>
+	pyrewrite rm <PATH>
+	pyrewrite rename (are you sure)
+	pyrewrite compress <RATE> (are you sure)
+	pyrewrite optimize <RATE> (are you sure)
+	pyrewrite rename <RATE> --recursive (are you sure)
+	pyrewrite compress <RATE> --recursive (are you sure)
+
+Packages needed:
+* pickle (for storing config)
+* PIL (optimization)
+
+Python 3 project
