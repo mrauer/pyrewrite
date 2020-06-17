@@ -1,25 +1,50 @@
+import os
+import os.path
+import pickle
 import sys
 
 
 class PyRewrite():
 
     def __init__(self):
-        self.config_path = '/tmp'
+        self.config_path = '/'.join(
+            [os.getenv('HOME'), '.pyrewrite'])
 
-    def list_config_file(self):
-        """Open and list the config file."""
-        print('list config file')
-        return 0
+    def check_if_config_file_exists(self):
+        """Check if config file exists."""
+        return os.path.isfile(self.config_path)
+
+    def load_config(self):
+        """Load or create config file."""
+        config = {}
+        if self.check_if_config_file_exists():
+            config = pickle.load(open(self.config_path, 'rb'))
+        else:
+            pickle.dump(config, open(self.config_path, 'wb'))
+        return config
+
+    def set_config_path(self, path):
+        """Set the config path."""
+        config = self.load_config()
+        config['path'] = path
+        pickle.dump(config, open(self.config_path, 'wb'))
 
 
 if __name__ == "__main__":
     p = PyRewrite()
-    """No arvs == help."""
+    """No argvs == help."""
     if len(sys.argv) == 1:
-        print('\nAvailable commands:\n'
-              '  pyrewrite ls\n'
-              '  pyrewrite add <path>\n'
-              '  pyrewrite rm <path>\n')
+        print('\nPyRewrite\n'
+              '============\n'
+              '\n'
+              'Available commands:\n'
+              '\n'
+              '  pyrewrite set <path>\n'
+              '  pyrewrite rename\n'
+              '\n'
+              'Configuration:\n'
+              )
+        print('  ' + str(p.load_config()) + '\n')
     else:
-        if sys.argv[1] == 'ls':
-            p.list_config_file()
+        if sys.argv[1] == 'set' and len(sys.argv) == 3:
+            p.set_config_path(sys.argv[2])
