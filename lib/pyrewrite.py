@@ -5,6 +5,8 @@ import re
 import sys
 from fnmatch import filter
 
+from PIL import Image
+
 
 class PyRewrite():
 
@@ -53,6 +55,42 @@ class PyRewrite():
                 updated += 1
         return updated, config['path']
 
+    def compress_images(self, quality):
+        """Compress the images to a given quality."""
+        config = self.load_config()
+        if 'path' not in config or config == {}:
+            sys.exit('Path must be set.')
+        _pre_size = self.get_size(config['path'])
+        _files = self.get_files()
+        for file in _files:
+            fpath = ''.join([config['path'], file])
+            print('compressing {}'.format(fpath))
+            try:
+                Image.open(fpath).save(
+                    fpath, quality=quality,
+                    optimize=True, progressive=True)
+            except Exception:
+                pass
+        _post_size = self.get_size(config['path'])
+        return _pre_size, _post_size
+
+    def sizeof_fmt(self, num, suffix='B'):
+        """Convert size of directory in readable units."""
+        for unit in ['', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei', 'Zi']:
+            if abs(num) < 1024.0:
+                return "%3.1f%s%s" % (num, unit, suffix)
+            num /= 1024.0
+        return "%.1f%s%s" % (num, 'Yi', suffix)
+
+    def get_size(self, path):
+        """Get the size of a directory."""
+        total_size = 0
+        for dirpath, dirnames, filenames in os.walk(path):
+            for f in filenames:
+                fp = os.path.join(dirpath, f)
+                total_size += os.path.getsize(fp)
+        return self.sizeof_fmt(total_size)
+
 
 if __name__ == "__main__":
     p = PyRewrite()
@@ -65,6 +103,7 @@ if __name__ == "__main__":
               '\n'
               '  pyrewrite set <path>\n'
               '  pyrewrite rename\n'
+              '  pyrewrite compress <quality>\n'
               '\n'
               'Configuration:\n'
               )
@@ -75,3 +114,6 @@ if __name__ == "__main__":
         elif sys.argv[1] == 'rename' and len(sys.argv) == 2:
             updated, path = p.rename_files()
             print('> {} files renamed in {}'.format(updated, path))
+        elif sys.argv[1] == 'compress' and len(sys.argv) == 3:
+            pre, post = p.compress_images(sys.argv[2])
+            print('> compressed images from {} to {}'.format(pre, post))
