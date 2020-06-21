@@ -1,6 +1,6 @@
 FROM alpine:3.7
 
-RUN apk add --no-cache python3 bash
+RUN apk add --no-cache python3 bash gcc python3-dev jpeg-dev zlib-dev build-base linux-headers
 
 WORKDIR /usr/src/app
 COPY . .
