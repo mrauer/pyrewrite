@@ -33,18 +33,18 @@ class PyRewrite():
         config['path'] = path
         pickle.dump(config, open(self.config_path, 'wb'))
 
-    def get_files(self):
+    def get_images(self):
         """Get .jpg files in path ignoring the case."""
         config = self.load_config()
         return filter(os.listdir(config['path']), '*.[Jj][Pp][Gg]')
 
-    def rename_files(self):
+    def rename_images(self):
         """Renamed to files in a standard way."""
         updated = 0
         config = self.load_config()
         if 'path' not in config or config == {}:
             sys.exit('Path must be set.')
-        _files = self.get_files()
+        _files = self.get_images()
         for file in _files:
             _from = ''.join([config['path'], file])
             _to = ''.join([config['path'], re.sub(
@@ -61,7 +61,7 @@ class PyRewrite():
         if 'path' not in config or config == {}:
             sys.exit('Path must be set.')
         _pre_size = self.get_size(config['path'])
-        _files = self.get_files()
+        _files = self.get_images()
         for file in _files:
             fpath = ''.join([config['path'], file])
             print('compressing {}'.format(fpath))
@@ -112,8 +112,8 @@ if __name__ == "__main__":
         if sys.argv[1] == 'set' and len(sys.argv) == 3:
             p.set_config_path(sys.argv[2])
         elif sys.argv[1] == 'rename' and len(sys.argv) == 2:
-            updated, path = p.rename_files()
-            print('> {} files renamed in {}'.format(updated, path))
+            updated, path = p.rename_images()
+            print('> {} images renamed in {}'.format(updated, path))
         elif sys.argv[1] == 'compress' and len(sys.argv) == 3:
             pre, post = p.compress_images(sys.argv[2])
             print('> compressed images from {} to {}'.format(pre, post))
