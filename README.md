@@ -1,13 +1,31 @@
 # PyRewrite
+Tool for standardizing and optimizing photos.
 
-###Commands
+### Available Commands
+    pyrewrite set <PATH>
+	pyrewrite rename
+	pyrewrite compress <QUALITY>
 
-	pyrewrite set <PATH>
-	pyrewrite rename (are you sure)
-	pyrewrite compress <RATE> (are you sure)
-	pyrewrite optimize <RATE> (are you sure)
-	pyrewrite rename <RATE> --recursive (are you sure)
-	pyrewrite compress <RATE> --recursive (are you sure)
+### Example
 
-Packages needed:
-* PIL (optimization)
+Let's suppose you have a photos directory located at `Dropbox/photos/20180921`
+
+First you need to set the path of the directory you would like to optimize:
+
+`pyrewrite set Dropbox/photos/20180921`
+
+If successful, you can see the path set by typing the command `pyrewrite`, as well as all the commands available.
+
+Then you can rename the file. This will lowercase the name and replace all the special characters. Only `.jpg` files are supported at this point:
+
+`pyrewrite rename`
+
+You can then compress the images in the directory by setting the image quality:
+
+`pyrewrite compress 75`
+
+### Contribute
+
+You can contribute to the project by developing new features, fixing bugs, submitting ideas or writing unit tests.
+
+Submit a ticket at https://github.com/mrauer/pyrewrite/issues
