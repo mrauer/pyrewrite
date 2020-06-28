@@ -13,3 +13,7 @@ sample:
 
 linux:
 	nuitka3 lib/pyrewrite.py --nofollow-imports -o bin/pyrewrite-linux
+
+# from an OSX system
+osx:
+	nuitka3 lib/pyrewrite.py --nofollow-imports -o bin/pyrewrite-osx

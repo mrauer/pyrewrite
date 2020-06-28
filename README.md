@@ -29,3 +29,9 @@ You can then compress the images in the directory by setting the image quality:
 You can contribute to the project by developing new features, fixing bugs, submitting ideas or writing unit tests.
 
 Submit a ticket at https://github.com/mrauer/pyrewrite/issues
+
+### Install on OSX
+
+To install in the path, use the following command:
+
+`sudo cp bin/pyrewrite-osx /usr/local/bin/pyrewrite`

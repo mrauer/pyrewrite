@@ -67,7 +67,7 @@ class PyRewrite():
             print('compressing {}'.format(fpath))
             try:
                 Image.open(fpath).save(
-                    fpath, quality=quality,
+                    fpath, quality=int(quality),
                     optimize=True, progressive=True)
             except Exception:
                 pass
